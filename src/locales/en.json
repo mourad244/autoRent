@@ -1,0 +1,20 @@
+{
+  "register": {
+    "signUp": "Sign Up",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "picture": "Upload Picture"
+  },
+  "login": {
+    "changeLanguage": "Change Language",
+    "email": "Email",
+    "password": "Password",
+    "login": "Login",
+    "createAccount": "Create new account",
+    "welcome": "Welcome to AutoRent",
+    "description": "Your streamlined solution for managing and renting vehicles. Explore, book, ride!"
+  }
+}

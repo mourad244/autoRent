@@ -1,24 +1,56 @@
+import { useState, useEffect } from "react";
+import { IUser } from "./types/user.type";
+import { eventBus } from "./common/EventBus";
+import LoginForm from "./components/LoginForm";
 import { Routes, Route } from "react-router-dom";
-import { Container } from "react-bootstrap";
-import { Home } from "./pages/Home";
-import { Store } from "./pages/Store";
-import { About } from "./pages/About";
-import { Navbar } from "./components/Navbar";
-import { ShoppingCartProvider } from "./context/ShoppingCartContext";
+import * as AuthService from "./services/auth.service";
+import { DirectionProvider } from "./context/DirectionContext";
+import Header from "./common/Header";
+import { NavbarDefault } from "./common/NavBar";
+import Cars from "./components/cars/Cars";
+
 function App() {
+  const [currentUser, setCurrentUser] = useState<IUser | undefined>(undefined);
+  const [isNavOpen, setIsNavOpen] = useState<boolean>(false);
+  useEffect(() => {
+    const user = AuthService.getCurrentUser();
+
+    if (user) {
+      setCurrentUser(user);
+    }
+    eventBus.on("logout", logOut);
+
+    return () => {
+      eventBus.remove("logout", logOut);
+    };
+  }, []);
+
+  const openNav = () => {
+    setIsNavOpen(true);
+  };
+  const closeNav = () => {
+    setIsNavOpen(false);
+  };
+  const logOut = () => {
+    AuthService.logout();
+    setCurrentUser(undefined);
+  };
+
+  if (!currentUser)
+    return (
+      <DirectionProvider>
+        <LoginForm />
+      </DirectionProvider>
+    );
   return (
-    <>
-      <ShoppingCartProvider>
-        <Navbar />
-        <Container className="mb-4">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/store" element={<Store />} />
-            <Route path="/about" element={<About />} />
-          </Routes>
-        </Container>
-      </ShoppingCartProvider>
-    </>
+    <DirectionProvider>
+      <Header />
+      <NavbarDefault />
+      <Routes>
+        <Route path="/login" element={<LoginForm />} />
+        <Route path="/cars" element={<Cars />} />
+      </Routes>
+    </DirectionProvider>
   );
 }
 
