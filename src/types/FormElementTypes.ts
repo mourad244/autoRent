@@ -2,15 +2,27 @@ export interface TextInputProps {
   name: string;
   label: string;
   register: any;
+  value: string | number | Date | null;
   type?: string;
   placeholder?: string;
   errors?: any;
   handleFocus?: () => void;
   isPasswordStrength?: boolean;
   width?: string;
+  trigger?: any;
   labelInside?: boolean;
+  setValue?: any;
 }
 
+// export interface DateInputProps {
+//   name: string;
+//   label: string;
+//   register: any; // You might want to make this more specific
+//   errors: Record<string, any>; // adjust the type as per your needs
+//   handleFocus?: (event: React.FocusEvent<HTMLInputElement>) => void;
+//   width?: string;
+//   value: Date | null;
+// }
 export interface ButtonProps {
   type: "button" | "submit" | "reset";
   label: string;
@@ -22,17 +34,8 @@ export interface BooleanInputProps {
   checked: boolean;
 }
 
-export interface DateInputProps {
-  label: string;
-  value: string;
-}
-
 export interface SelectInputProps {
   label: string;
-  name: string;
-  register: any;
-  errors?: any;
-  width?: string;
   options: Array<
     | {
         id: number;
@@ -40,7 +43,14 @@ export interface SelectInputProps {
       }
     | string
   >;
-  labelInside?: boolean;
+  trigger?: any;
+  width?: string;
+  value: string;
+  name: string;
+  register: any;
+  errors?: any;
+  setValue?: any;
+  // labelInside?: boolean;
 }
 
 export interface ListInputProps {

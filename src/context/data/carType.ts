@@ -1,7 +1,7 @@
 const carType = [
   {
     id: 1,
-    name: "Passenger car",
+    name: "Hatchback",
   },
   {
     id: 2,
@@ -26,6 +26,18 @@ const carType = [
   {
     id: 7,
     name: "Trailers",
+  },
+  {
+    id: 8,
+    name: "Sedan",
+  },
+  {
+    id: 9,
+    name: "Passenger car",
+  },
+  {
+    id: 10,
+    name: "Coupe",
   },
 ];
 

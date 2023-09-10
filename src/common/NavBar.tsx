@@ -5,11 +5,19 @@ import {
   IconButton,
   Collapse,
 } from "@material-tailwind/react";
-
 import { Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+
+import menuItems from "./MenuItems";
+
 export function NavbarDefault() {
+  const location = useLocation();
+
+  const initialSelectedItem =
+    menuItems.find((item) => item.link === location.pathname)?.name ||
+    "Accueil";
   const [openNav, setOpenNav] = useState<boolean>(false);
-  const [selectedItem, setSelectedItem] = useState<string>("Accueil");
+  const [selectedItem, setSelectedItem] = useState<string>(initialSelectedItem);
 
   useEffect(() => {
     window.addEventListener(
@@ -17,36 +25,7 @@ export function NavbarDefault() {
       () => window.innerWidth >= 960 && setOpenNav(false)
     );
   }, []);
-  const menuItems = [
-    {
-      name: "Accueil",
-      link: "/accueil",
-    },
-    {
-      name: "Statistiques",
-      link: "/statistiques",
-    },
-    {
-      name: "Reservations",
-      link: "/reservations",
-    },
-    {
-      name: "Calendrier",
-      link: "/calendrier",
-    },
-    {
-      name: "Voitures",
-      link: "/cars",
-    },
-    {
-      name: "Entretiens",
-      link: "/entretiens",
-    },
-    {
-      name: "Réparations",
-      link: "/reparations",
-    },
-  ];
+
   const navList = (
     <ul className="mb-4 mt-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
       {menuItems.map((item) => (
@@ -54,7 +33,7 @@ export function NavbarDefault() {
           as="li"
           variant="small"
           color="blue-gray"
-          className={`p-1 font-normal ${
+          className={`p-1 font-normal w-fit ${
             item.name === selectedItem
               ? "text-blue-500 border-b-2 border-blue-500"
               : ""
@@ -75,7 +54,7 @@ export function NavbarDefault() {
 
   return (
     <Navbar
-      className="w-full py-2 lg:px-8 max-w-screen-3xl lg:py-4 rounded-none"
+      className=" py-2 lg:px-8 max-w-screen-3xl lg:py-4 rounded-none"
       nonce={undefined}
       onResize={undefined}
       onResizeCapture={undefined}

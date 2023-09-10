@@ -105,7 +105,7 @@ const marqueVoiture = [
   },
   {
     id: 7,
-    name: "Mercedes-Benz",
+    name: "Mercedes",
     models: [
       "Classe A",
       "Classe B",
@@ -136,6 +136,7 @@ const marqueVoiture = [
       "Edge",
       "Galaxy",
       "S-Max",
+      "Mustang",
       "Tourneo Custom",
       "Ranger",
       "Transit",
@@ -197,6 +198,7 @@ const marqueVoiture = [
     models: [
       "Micra",
       "Leaf",
+      "Sentra",
       "Pulsar",
       "Juke",
       "Qashqai",
@@ -223,6 +225,7 @@ const marqueVoiture = [
       "Ioniq",
       "Kona",
       "Tucson",
+      "Elantra",
       "Santa Fe",
       "H1",
     ],
@@ -241,6 +244,7 @@ const marqueVoiture = [
       "Sorento",
       "Carens",
       "Soul",
+      "Forte",
       "Venga",
       "Carnival",
       "Stinger",

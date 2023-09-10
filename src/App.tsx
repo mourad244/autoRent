@@ -44,12 +44,14 @@ function App() {
     );
   return (
     <DirectionProvider>
-      <Header />
-      <NavbarDefault />
-      <Routes>
-        <Route path="/login" element={<LoginForm />} />
-        <Route path="/cars" element={<Cars />} />
-      </Routes>
+      <div className="flex flex-col items-stretch min-w-max ">
+        <Header />
+        <NavbarDefault />
+        <Routes>
+          <Route path="/login" element={<LoginForm />} />
+          <Route path="/cars" element={<Cars />} />
+        </Routes>
+      </div>
     </DirectionProvider>
   );
 }

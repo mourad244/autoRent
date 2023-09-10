@@ -7,7 +7,7 @@ export type ICar = {
   year: number;
   vehicleType: string;
   country: string;
-  registryDate: Date;
+  registryDate: string;
   licencePlate: string;
   color: string;
   transmission: string;
@@ -16,7 +16,7 @@ export type ICar = {
   seatCapacity: number;
   door: number;
   dailyPrice: number;
-  isAVailable: boolean | undefined;
+  isAvailable: boolean | undefined;
 
   // image: string;
   // description: string;

@@ -6,7 +6,7 @@ import { logout } from "../services/auth.service";
 function Header() {
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
   return (
-    <div className="bg-gray-800 text-white shadow-lg py-4 px-6 flex justify-between items-center relative">
+    <div className="bg-gray-800 text-white shadow-lg py-4 px-6 flex justify-between items-center w-full">
       <div className="flex items-center">
         <img src={logo} alt="App logo" className="w-8 h-8 mr-3" />
         <span className="text-lg font-semibold">AutoRent</span>

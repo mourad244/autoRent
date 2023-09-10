@@ -3,67 +3,81 @@ import { FiEye, FiEyeOff } from "react-icons/fi";
 import { TextInputProps } from "../types/FormElementTypes";
 import PasswordStrengthMeter from "./PasswordStrenghtMeter";
 import { useDirection } from "../context/DirectionContext";
+import { Input } from "@material-tailwind/react";
+
+function formatDateToInput(dateString: string | Date) {
+  let d = new Date(dateString);
+  let month = "" + (d.getMonth() + 1);
+  let day = "" + d.getDate();
+  let year = d.getFullYear();
+
+  if (month.length < 2) month = "0" + month;
+  if (day.length < 2) day = "0" + day;
+  return [year, month, day].join("-");
+}
 
 function TextInput({
   name,
   type = "text",
   label,
+  value,
   register,
   errors,
+  setValue,
+  trigger,
   handleFocus,
   isPasswordStrength = false,
   width = "w-full",
-  labelInside = false,
 }: TextInputProps) {
   const [showPassword, setShowPassword] = useState(false);
   const [password, setPassword] = useState("");
   const { isRTL } = useDirection();
-
-  const handlePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(e.target.value);
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (name === "password" || name === "confirmPassword") {
+      setPassword(e.target.value);
+    }
+    setValue(name, e.target.value);
+    trigger(name);
   };
 
+  let dateValue = "" as string | undefined;
+  if (type === "date" && (typeof value === "string" || value instanceof Date))
+    dateValue = formatDateToInput(value);
   const inputType =
     name === "password" || name === "confirmPassword"
       ? showPassword
         ? "text"
         : "password"
       : type;
-
+  // Determine icon based on the input type
+  let inputIcon = null;
+  if (name === "password" || name === "confirmPassword") {
+    inputIcon = showPassword ? <FiEyeOff /> : <FiEye />;
+  }
+  // if (name === "registryDate") console.log(dateValue);
   return (
-    <div className="relative m-3">
-      {!labelInside && (
-        <label htmlFor={name} className="block mb-2">
-          {label}
-        </label>
-      )}
-
-      <input
+    <div className="relative m-3 w-[200px] ">
+      <Input
         type={inputType}
         {...register(name)}
-        onChange={
-          name === "password" || name === "confirmPassword"
-            ? handlePassword
-            : undefined
-        }
+        onChange={handleChange}
         onFocus={handleFocus}
-        className={`p-2 ${width} border rounded ${
-          errors[name] ? "border-red-500" : "border-gray-300"
-        } bg-gray-100`}
-        placeholder={labelInside ? label : undefined}
+        label={label}
+        variant="outlined"
+        width={width}
+        error={!!errors[name]}
+        icon={
+          name === "password" || name === "confirmPassword" ? (
+            <div
+              onClick={() => setShowPassword(!showPassword)}
+              className={`cursor-pointer`}
+            >
+              {showPassword ? <FiEyeOff /> : <FiEye />}
+            </div>
+          ) : null
+        }
       />
-      {password &&
-        !errors[name] &&
-        (name === "password" || name === "confirmPassword") && (
-          <div
-            onClick={() => setShowPassword(!showPassword)}
-            className={`password-toggle-icon absolute inset-y-0 ${
-              isRTL ? "left-2.5" : "right-2.5"
-            } top-1.6 flex items-center cursor-pointer`}
-          >
-            {showPassword ? <FiEyeOff /> : <FiEye />}
-          </div>
-        )}
+
       {isPasswordStrength &&
         (name === "password" || name === "confirmPassword") && (
           <PasswordStrengthMeter password={password} />
