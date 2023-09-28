@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from "react";
+
+import { ICar } from "../../types/car.type";
+
+import FileInput from "../../common/FileInput";
+import TextInput from "../../common/TextInput";
+import SelectInput from "../../common/SelectInput";
+
 import * as Yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import TextInput from "../../common/TextInput";
-import { ICar } from "../../types/car.type";
-import SelectInput from "../../common/SelectInput";
-import carType from "../../context/data/carType";
-import carBrand from "../../context/data/carBrand";
-import carClass from "../../context/data/carClass";
+
 import { Button, Typography } from "@material-tailwind/react";
 
 const validationSchema = Yup.object().shape({
+  id: Yup.number().typeError("ID must be a number").required("ID is required"),
   brand: Yup.string().required("Brand is required"),
   model: Yup.string().required("Model is required"),
   vehicleClass: Yup.string().required("Vehicle class is required"),
@@ -37,14 +40,21 @@ const validationSchema = Yup.object().shape({
   dailyPrice: Yup.number()
     .typeError("Daily price must be a number")
     .required("Daily price is required"),
+  picture: Yup.string().required("Picture is required"),
 });
 
 function CarForm({
   selectedCar,
   onClose,
+  carsBrand,
+  carsType,
+  carsClass,
 }: {
   selectedCar: ICar | null;
   onClose: () => void;
+  carsType: any[];
+  carsClass: any[];
+  carsBrand: any[];
 }) {
   const {
     register,
@@ -67,17 +77,13 @@ function CarForm({
   useEffect(() => {
     watch();
   }, []);
-  let sortedCarBrand = carBrand.sort((a, b) => {
-    if (a.name < b.name) return -1;
-    else if (a.name > b.name) return 1;
-    else return 0;
-  });
 
   const selectedBrand = watch("brand", "");
   const onSubmit = (data: ICar) => {
     console.log("data", data);
     reset();
   };
+
   return (
     <div className=" bg-white p-4 rounded-lg ">
       <div className="relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 shadow-md h-full w-full">
@@ -88,6 +94,7 @@ function CarForm({
           <Button
             className="flex items-center gap-3"
             size="sm"
+            color="amber"
             nonce={undefined}
             onResize={undefined}
             onResizeCapture={undefined}
@@ -102,7 +109,7 @@ function CarForm({
           className=" flex flex-wrap max-w-screen-xl w-24 min-w-full mx-auto 	"
         >
           <SelectInput
-            options={sortedCarBrand}
+            options={carsBrand}
             name="brand"
             label="Brand"
             register={register}
@@ -122,7 +129,7 @@ function CarForm({
             value={getValues("model")}
             width="w-[200px]"
             options={
-              sortedCarBrand.find((m) => m.name === selectedBrand)?.models || []
+              carsBrand.find((m) => m.name === selectedBrand)?.models || []
             }
             setValue={setValue}
           />
@@ -135,7 +142,7 @@ function CarForm({
             width="w-[200px]"
             value={getValues("vehicleClass")}
             setValue={setValue}
-            options={carClass}
+            options={carsClass}
           />
           <TextInput
             value={getValues("year")}
@@ -153,7 +160,7 @@ function CarForm({
             name="vehicleType"
             value={getValues("vehicleType")}
             register={register}
-            options={carType}
+            options={carsType}
             errors={errors}
             setValue={setValue}
             width="w-[200px]"
@@ -268,6 +275,17 @@ function CarForm({
             width="w-[200px]"
             errors={errors}
             setValue={setValue}
+          />
+          <FileInput
+            imageUrl={selectedCar?.picture}
+            value={getValues("picture")}
+            name="picture"
+            label={"Upload car picture"}
+            trigger={trigger}
+            width="w-[200px]"
+            errors={errors}
+            setValue={setValue}
+            register={register}
           />
           <div className="flex w-full justify-end">
             <Button

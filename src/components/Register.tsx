@@ -1,10 +1,16 @@
 import React, { useState } from "react";
 import { IUser } from "../types/user.type";
-
+import {
+  Card,
+  Input,
+  Checkbox,
+  Button,
+  Typography,
+} from "@material-tailwind/react";
 import * as Yup from "yup";
 import FileInput from "../common/FileInput";
 import TextInput from "../common/TextInput";
-import { useForm } from "react-hook-form";
+import { get, useForm } from "react-hook-form";
 import ButtonSubmit from "../common/ButtonSubmit";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useTranslation } from "react-i18next";
@@ -47,6 +53,10 @@ function Register() {
     register,
     handleSubmit,
     watch,
+    reset,
+    setValue,
+    trigger,
+
     formState: { errors },
   } = useForm<User>({
     resolver: yupResolver(validationSchema),
@@ -72,56 +82,94 @@ function Register() {
     );
   };
   return (
-    <div className="w-[400px]">
-      <h2 className="text-center mb-5">{t("register.signUp")}</h2>
-      <form onSubmit={handleSubmit(handleRegister)} noValidate>
-        <TextInput
-          name="firstName"
-          label={t("register.firstName")}
-          register={register}
-          errors={errors}
-        />
-        <TextInput
-          name="lastName"
-          label={t("register.lastName")}
-          register={register}
-          errors={errors}
-        />
-        <TextInput
-          name="email"
-          label={t("register.email")}
-          register={register}
-          errors={errors}
-        />
-        <TextInput
-          name="password"
-          label={t("register.password")}
-          type="password"
-          register={register}
-          errors={errors}
-          isPasswordStrength={true}
-        />
-        <TextInput
-          name="confirmPassword"
-          label={t("register.confirmPassword")}
-          type="password"
-          register={register}
-          errors={errors}
-          isPasswordStrength={true}
-        />
-        <FileInput
-          name="picture"
-          label={t("register.picture")}
-          register={register}
-          watch={watch}
-        />
+    <Card
+      color="transparent"
+      shadow={false}
+      nonce={undefined}
+      onResize={undefined}
+      onResizeCapture={undefined}
+    >
+      <Typography variant="h4" color="blue-gray">
+        Sign Up
+      </Typography>
+      <Typography color="gray" className="mt-1 font-normal">
+        Enter your details to register.
+      </Typography>
+      <form
+        className=" mt-8 mb-2 w-80 max-w-screen-lg sm:w-96"
+        onSubmit={handleSubmit(handleRegister)}
+        noValidate
+      >
+        <div className="mb-4 flex flex-col ">
+          <TextInput
+            name="firstName"
+            label={t("register.firstName")}
+            register={register}
+            errors={errors}
+            value={get("firstName")}
+            trigger={trigger}
+            setValue={setValue}
+            width="w-[150px]"
+          />
+          <TextInput
+            name="lastName"
+            label={t("register.lastName")}
+            register={register}
+            errors={errors}
+            value={get("lastName")}
+            trigger={trigger}
+            setValue={setValue}
+            width="w-[150px]"
+          />
+          <TextInput
+            name="email"
+            label={t("register.email")}
+            register={register}
+            errors={errors}
+            value={get("email")}
+            trigger={trigger}
+            setValue={setValue}
+          />
+          <TextInput
+            name="password"
+            label={t("register.password")}
+            type="password"
+            register={register}
+            errors={errors}
+            isPasswordStrength={true}
+            value={get("password")}
+            trigger={trigger}
+            setValue={setValue}
+          />
+          <TextInput
+            name="confirmPassword"
+            label={t("register.confirmPassword")}
+            type="password"
+            register={register}
+            errors={errors}
+            isPasswordStrength={true}
+            value={get("confirmPassword")}
+            trigger={trigger}
+            setValue={setValue}
+          />
+          <FileInput
+            name="picture"
+            label={t("register.picture")}
+            register={register}
+            setValue={setValue}
+            value={get("picture")}
+            trigger={trigger}
+            errors={errors}
+            width="w-[150px]"
+          />
+        </div>
         <ButtonSubmit
           type="submit"
           label={t("register.signUp")}
           buttonType="submit"
         />
       </form>
-    </div>
+    </Card>
   );
 }
 

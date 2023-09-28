@@ -1,6 +1,7 @@
 // attributes marque, modele, classeVehicule, year, vehicleType, country, registryDate, licencePlate, color, transmission, horsePower, Carburant, seatCapacity, door, dailyPrice,
 // year en englais est
 export type ICar = {
+  id: number;
   brand: string;
   model: string;
   vehicleClass: string;
@@ -17,6 +18,7 @@ export type ICar = {
   door: number;
   dailyPrice: number;
   isAvailable: boolean | undefined;
+  picture: string;
 
   // image: string;
   // description: string;
@@ -31,5 +33,8 @@ export type ICar = {
   // facture: IFacture;
   // paiement: IPaiement;
   // avis: IAvis;
+  // engineSize: number;
+  //features: IFeature[];
+
   // image: IImage;
 };

@@ -1,10 +1,31 @@
 import React, { useState, useEffect } from "react";
 import {
   Navbar,
+  MobileNav,
   Typography,
+  Button,
+  Menu,
+  MenuHandler,
+  MenuList,
+  MenuItem,
+  Avatar,
+  Card,
   IconButton,
   Collapse,
 } from "@material-tailwind/react";
+import {
+  CubeTransparentIcon,
+  UserCircleIcon,
+  CodeBracketSquareIcon,
+  Square3Stack3DIcon,
+  ChevronDownIcon,
+  Cog6ToothIcon,
+  InboxArrowDownIcon,
+  LifebuoyIcon,
+  PowerIcon,
+  RocketLaunchIcon,
+  Bars2Icon,
+} from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 
@@ -22,18 +43,18 @@ export function NavbarDefault() {
   useEffect(() => {
     window.addEventListener(
       "resize",
-      () => window.innerWidth >= 960 && setOpenNav(false)
+      () => window.innerWidth >= 720 && setOpenNav(false)
     );
   }, []);
 
   const navList = (
-    <ul className="mb-4 mt-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
+    <ul className="mb-4 mt-2 flex flex-col gap-2 md:mb-0 md:mt-0 md:flex-row md:items-center md:gap-6">
       {menuItems.map((item) => (
         <Typography
           as="li"
           variant="small"
           color="blue-gray"
-          className={`p-1 font-normal w-fit ${
+          className={`p-1 font-bold w-fit ${
             item.name === selectedItem
               ? "text-blue-500 border-b-2 border-blue-500"
               : ""
@@ -54,17 +75,17 @@ export function NavbarDefault() {
 
   return (
     <Navbar
-      className=" py-2 lg:px-8 max-w-screen-3xl lg:py-4 rounded-none"
+      className=" py-2 md:px-8 max-w-screen-3xl md:py-4 rounded-none"
       nonce={undefined}
       onResize={undefined}
       onResizeCapture={undefined}
     >
       <div className="container mx-auto flex items-center justify-between text-blue-gray-900">
-        <div className="hidden lg:block">{navList}</div>
+        <div className="hidden md:block">{navList}</div>
 
         <IconButton
           variant="text"
-          className="ml-auto h-6 w-6 text-inherit hover:bg-transparent focus:bg-transparent active:bg-transparent lg:hidden"
+          className="ml-auto h-6 w-6 text-inherit hover:bg-transparent focus:bg-transparent active:bg-transparent md:hidden"
           ripple={false}
           onClick={() => setOpenNav(!openNav)}
           nonce={undefined}

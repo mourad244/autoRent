@@ -7,13 +7,18 @@ import {
   Typography,
   Button,
 } from "@material-tailwind/react";
+import { ICar } from "../types/car.type";
 
 type TableProps = {
   tableHeaders: JSX.Element[];
   tableRows: JSX.Element[];
+  itemActions: JSX.Element;
   title: string;
   subtitle: string;
-  searchComponent: JSX.Element;
+  tableControlPanel?: JSX.Element;
+  searchComponent?: JSX.Element;
+  collapseComponent?: JSX.Element;
+  collapseButton?: JSX.Element;
   footerComponent?: JSX.Element;
   additionalActions?: JSX.Element;
 };
@@ -24,8 +29,12 @@ function Table({
   title,
   subtitle,
   searchComponent,
+  collapseComponent,
+  collapseButton,
   footerComponent,
   additionalActions,
+  tableControlPanel,
+  itemActions,
 }: TableProps) {
   return (
     <Card
@@ -53,7 +62,8 @@ function Table({
           </div>
           {additionalActions}
         </div>
-        {searchComponent}
+        <div className="flex ">{tableControlPanel}</div>
+        {itemActions}
       </CardHeader>
 
       {tableRows.length !== 0 ? (
@@ -62,9 +72,9 @@ function Table({
             nonce={undefined}
             onResize={undefined}
             onResizeCapture={undefined}
-            className=" px-0"
+            className="p-2 px-4"
           >
-            <table className="mt-4 w-full min-w-max table-auto text-left">
+            <table className=" w-full min-w-max table-auto text-left">
               <thead>
                 <tr>
                   {tableHeaders.map((header, index) => (

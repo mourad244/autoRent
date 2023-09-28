@@ -50,6 +50,9 @@ function LoginForm() {
     register,
     handleSubmit,
     reset,
+    setValue,
+    getValues,
+    trigger,
     formState: { errors },
   } = useForm<UserSubmitForm>({
     resolver: yupResolver(validationSchema),
@@ -142,6 +145,9 @@ function LoginForm() {
             label={t("login.email")}
             register={register}
             errors={errors}
+            value={getValues("email")}
+            trigger={trigger}
+            setValue={setValue}
           />
           <TextInput
             name="password"
@@ -149,6 +155,9 @@ function LoginForm() {
             type="password"
             register={register}
             errors={errors}
+            value={getValues("password")}
+            setValue={setValue}
+            trigger={trigger}
             handleFocus={handleFocus}
           />
           {error && (

@@ -1,23 +1,27 @@
 import { useState, useEffect } from "react";
+import { Routes, Route } from "react-router-dom";
+
+import * as AuthService from "./services/auth.service";
+
+import Header from "./common/Header";
+import Cars from "./components/cars/Cars";
+import LoginForm from "./components/LoginForm";
+
 import { IUser } from "./types/user.type";
 import { eventBus } from "./common/EventBus";
-import LoginForm from "./components/LoginForm";
-import { Routes, Route } from "react-router-dom";
-import * as AuthService from "./services/auth.service";
-import { DirectionProvider } from "./context/DirectionContext";
-import Header from "./common/Header";
 import { NavbarDefault } from "./common/NavBar";
-import Cars from "./components/cars/Cars";
+import { DirectionProvider } from "./context/DirectionContext";
 
 function App() {
   const [currentUser, setCurrentUser] = useState<IUser | undefined>(undefined);
-  const [isNavOpen, setIsNavOpen] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
   useEffect(() => {
     const user = AuthService.getCurrentUser();
 
     if (user) {
       setCurrentUser(user);
     }
+    setLoading(false);
     eventBus.on("logout", logOut);
 
     return () => {
@@ -25,17 +29,11 @@ function App() {
     };
   }, []);
 
-  const openNav = () => {
-    setIsNavOpen(true);
-  };
-  const closeNav = () => {
-    setIsNavOpen(false);
-  };
   const logOut = () => {
     AuthService.logout();
     setCurrentUser(undefined);
   };
-
+  if (loading) return null;
   if (!currentUser)
     return (
       <DirectionProvider>

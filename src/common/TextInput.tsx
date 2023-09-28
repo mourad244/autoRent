@@ -54,12 +54,12 @@ function TextInput({
   if (name === "password" || name === "confirmPassword") {
     inputIcon = showPassword ? <FiEyeOff /> : <FiEye />;
   }
-  // if (name === "registryDate") console.log(dateValue);
   return (
-    <div className="relative m-3 w-[200px] ">
+    <div className={`flex flex-col relative m-3 ${width} `}>
       <Input
         type={inputType}
         {...register(name)}
+        containerProps={{ className: "min-w-[50px]" }}
         onChange={handleChange}
         onFocus={handleFocus}
         label={label}
@@ -83,7 +83,9 @@ function TextInput({
           <PasswordStrengthMeter password={password} />
         )}
 
-      <div className="text-red-500 text-sm mt-1">{errors[name]?.message}</div>
+      <div className="w-full text-red-500 text-sm mt-1">
+        {errors[name]?.message}
+      </div>
     </div>
   );
 }

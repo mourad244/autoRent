@@ -1,4 +1,3 @@
-import React, { useState, useEffect } from "react";
 import { SelectInputProps } from "../types/FormElementTypes";
 import { Select, Option } from "@material-tailwind/react";
 import { useCountries } from "use-react-countries";
@@ -10,24 +9,28 @@ function SelectInput({
   setValue,
   value,
   trigger,
+  onValueChange,
   options = [],
   width = "w-full",
 }: SelectInputProps) {
   const handleChange = (e: string) => {
-    setValue(name, e);
-    trigger(name);
+    if (onValueChange) onValueChange(name, e);
+    else {
+      setValue(name, e);
+      trigger(name);
+    }
   };
   const { countries } = useCountries();
   if (name === "country")
     options = countries.map((country: any) => country.name).sort();
 
   return (
-    <div className={`relative m-3 ${width} `}>
+    <div className={`m-3 ${width}`}>
       <Select
-        {...register(name)}
+        {...(register ? register(name) : {})} // Check if register exists
         value={value}
         label={label}
-        error={!!errors[name]}
+        error={errors && !!errors[name]}
         onChange={handleChange}
       >
         {options.map((option, index) => {

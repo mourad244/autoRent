@@ -47,9 +47,10 @@ export interface SelectInputProps {
   width?: string;
   value: string;
   name: string;
-  register: any;
+  register?: any;
   errors?: any;
   setValue?: any;
+  onValueChange?: (name: string, value: string) => void;
   // labelInside?: boolean;
 }
 
