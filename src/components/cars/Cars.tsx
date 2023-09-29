@@ -37,24 +37,7 @@ interface State {
     label: string;
   }[];
 }
-/*  id: 1,
-    brand: "Peugeot",
-    model: "208",
-    vehicleClass: "Compact",
-    year: 2021,
-    vehicleType: "Coupe",
-    country: "France",
-    registryDate: "2021-06-15",
-    licencePlate: "P2O8",
-    color: "Blue",
-    isAvailable: true,
-    transmission: "Manual",
-    horsePower: 110,
-    fuel: "Essence",
-    seatCapacity: 5,
-    door: 4,
-    dailyPrice: 70,
-    picture: "https://i.ibb.co/0j3QY1Z/peugeot-208-1.jpg", */
+
 function Cars() {
   const [state, setState] = useState<State>({
     cars: car as ICar[],
@@ -155,10 +138,6 @@ function Cars() {
   const handleCloseForm = () => {
     setState((prev) => ({ ...prev, showForm: false }));
   };
-
-  const handleDisplayDetails = () => {
-    setState((prev) => ({ ...prev, showDetails: true }));
-  };
   const handleCloseDetails = () => {
     setState((prev) => ({ ...prev, showDetails: false }));
   };
@@ -184,7 +163,6 @@ function Cars() {
   };
 
   const handleSelectCar = (car: ICar) => {
-    console.log("car", state.cars);
     setState((prevState: State) => {
       const selectedCars: ICar[] = [...prevState.selectedCars];
       const index = selectedCars.findIndex((c) => c.id === car.id);
@@ -196,14 +174,9 @@ function Cars() {
       let selectedCar = null as ICar | null;
       let founded: ICar | undefined = state.cars.find((c) => c.id === car.id);
       if (founded && selectedCars.length === 1) selectedCar = founded;
-      // if (selectedCars.length === 1)
-      // selectedCar = state.cars.find((c) => c.id === car.id);
-
       return {
         ...prevState,
         selectedCars,
-        // selectedCar: selectedCars.length === 1 ? selectedCars[0] : null,
-        // i want to set selectedCar with all its properties from cars
         selectedCar: selectedCars.length === 1 ? selectedCar : null,
       };
     });
@@ -305,8 +278,6 @@ function Cars() {
     state.itemsPerPage,
     state.selectedFields,
   ]);
-  console.log("selectedCar", state.selectedCar);
-  console.log("selectedCars", state.selectedCars);
   if (state.showForm && state.selectedCar)
     return (
       <CarForm
