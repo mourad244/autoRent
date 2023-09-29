@@ -14,10 +14,10 @@ import { sortItems } from "../../utils/sortItems";
 import CarDetails from "./CarDetails";
 
 interface State {
-  cars: ICar[];
+  cars: ICar[] | [];
   filteredCars: ICar[];
   selectedCar: ICar | null;
-  selectedCars: ICar[];
+  selectedCars: ICar[] | [];
   selectedCarBrand: string;
   selectedCarType: string;
   selectedCarClass: string;
@@ -101,7 +101,7 @@ function Cars() {
   });
   const sortedCarBrand = useMemo(() => {
     return carBrand.sort((a, b) =>
-      a.name < b.name ? -1 : a.name > b.name ? 1 : 0
+      a.name < b.name ? -1 : a.name > b.name ? 1 : 0,
     );
   }, [carBrand]);
 
@@ -184,6 +184,7 @@ function Cars() {
   };
 
   const handleSelectCar = (car: ICar) => {
+    console.log("car", state.cars);
     setState((prevState: State) => {
       const selectedCars: ICar[] = [...prevState.selectedCars];
       const index = selectedCars.findIndex((c) => c.id === car.id);
@@ -192,10 +193,18 @@ function Cars() {
       } else {
         selectedCars.splice(index, 1);
       }
+      let selectedCar = null as ICar | null;
+      let founded: ICar | undefined = state.cars.find((c) => c.id === car.id);
+      if (founded && selectedCars.length === 1) selectedCar = founded;
+      // if (selectedCars.length === 1)
+      // selectedCar = state.cars.find((c) => c.id === car.id);
+
       return {
         ...prevState,
         selectedCars,
-        selectedCar: selectedCars.length === 1 ? selectedCars[0] : null,
+        // selectedCar: selectedCars.length === 1 ? selectedCars[0] : null,
+        // i want to set selectedCar with all its properties from cars
+        selectedCar: selectedCars.length === 1 ? selectedCar : null,
       };
     });
   };
@@ -218,7 +227,7 @@ function Cars() {
     let result = [...state.cars];
     if (query) {
       result = result.filter((c) =>
-        c.brand.toLowerCase().includes(query.toLowerCase())
+        c.brand.toLowerCase().includes(query.toLowerCase()),
       );
     }
     setState((prev) => ({
@@ -243,7 +252,7 @@ function Cars() {
       const selectedCarIds = new Set(selectedCars.map((car) => car.id));
       const newCars = cars.filter((c) => !selectedCarIds.has(c.id));
       const newFilteredCars = filteredCars.filter(
-        (c) => !selectedCarIds.has(c.id)
+        (c) => !selectedCarIds.has(c.id),
       );
       if (newCars.length !== cars.length) {
         setState((prev) => ({
@@ -296,8 +305,9 @@ function Cars() {
     state.itemsPerPage,
     state.selectedFields,
   ]);
-
-  if (state.showForm)
+  console.log("selectedCar", state.selectedCar);
+  console.log("selectedCars", state.selectedCars);
+  if (state.showForm && state.selectedCar)
     return (
       <CarForm
         selectedCar={state.selectedCar}
@@ -307,7 +317,7 @@ function Cars() {
         onClose={handleCloseForm}
       />
     );
-  else if (state.showDetails)
+  else if (state.showDetails && state.selectedCar)
     return (
       <CarDetails
         selectedCar={state.selectedCar}
@@ -321,8 +331,12 @@ function Cars() {
         fields={state.fields}
         onFieldSelect={handleSelectField}
         onEditCar={state.selectedCar ? handleEditCar : undefined}
-        onDeleteCar={handleDeleteCar}
         onViewDetails={state.selectedCar ? handleViewDetails : undefined}
+        onDeleteCar={
+          state.selectedCar !== null || state.selectedCars.length !== 0
+            ? handleDeleteCar
+            : undefined
+        }
         onValueChange={onFilterChange}
         carsBrand={[{ name: "All", id: "all" }, ...sortedCarBrand]}
         carsType={[{ name: "All", id: "all" }, ...carType]}

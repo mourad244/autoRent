@@ -45,7 +45,7 @@ type CarTableProps = {
   }[];
   onAddCar: () => void;
   onEditCar?: () => void;
-  onDeleteCar: () => void;
+  onDeleteCar?: () => void;
   onViewDetails?: () => void;
 
   onSearch: (query: string) => void;
@@ -206,12 +206,15 @@ function CarTable({
         nonce={undefined}
         onResize={undefined}
         onResizeCapture={undefined}
+        labelProps={{
+          className: "text-sm",
+        }}
       />
     );
   };
 
   const visibleFieldsFunctions = (
-    <div className="flex flex-wrap w-[600px]">
+    <div className="flex w-[600px] flex-wrap">
       {fields.map(
         (field) =>
           field.name !== "select" && (
@@ -223,7 +226,7 @@ function CarTable({
                 headers.findIndex((header) => header.name === field.name) !== -1
               }
             />
-          )
+          ),
       )}
     </div>
   );
@@ -249,7 +252,7 @@ function CarTable({
     return (
       <Collapse open={isOpen} className="!basis-auto">
         <Card
-          className=" mt-2 mx-auto w-full bg-black/5"
+          className=" mx-auto mt-2 w-full bg-black/5"
           nonce={undefined}
           onResize={undefined}
           onResizeCapture={undefined}
@@ -293,7 +296,7 @@ function CarTable({
   );
 
   const searchInput = (
-    <div className="flex flex-col items-top justify-between gap-2 ml-2 md:flex-row">
+    <div className="items-top  ml-2 flex flex-col justify-between gap-2 md:flex-row">
       <div className="w-full md:w-72">
         <Input
           onChange={handleSearchChange}
@@ -307,7 +310,7 @@ function CarTable({
     </div>
   );
   const tableControlPanel = (
-    <div className="flex flex-col mb-2">
+    <div className=" mb-2 flex  flex-col">
       <div className="flex flex-row">
         {collapseButton}
         {searchInput}
@@ -332,7 +335,7 @@ function CarTable({
       return (
         <th
           key={uuidv4()}
-          className=" cursor-pointer border-y border-blue-gray-100 bg-blue-gray-50/50 p-2 transition-colors hover:bg-blue-gray-50"
+          className="cursor-pointer border-y border-blue-gray-100 bg-blue-gray-50/50 p-2 transition-colors hover:bg-blue-gray-50"
           // onClick={() => onSort(headersKey[index] as keyof ICar)}
         >
           <Checkbox
@@ -353,7 +356,7 @@ function CarTable({
     return (
       <th
         key={uuidv4()}
-        className="max-w-[120px] cursor-pointer border-y border-blue-gray-100 bg-blue-gray-50/50 p-2 transition-colors hover:bg-blue-gray-50"
+        className="max-w-[120px] cursor-pointer border-y border-blue-gray-100  bg-blue-gray-50/50 p-2 transition-colors hover:bg-blue-gray-50"
         onClick={() => onSort(headers[index]["name"] as keyof ICar)}
       >
         {header.label}
@@ -373,7 +376,7 @@ function CarTable({
   const tableRows = rows.map((car, index) => {
     const isLast = index === rows.length - 1;
     const classes = isLast
-      ? "p-2 max-w-[120px]"
+      ? "max-w-[120px] p-2 "
       : "p-2 border-b border-blue-gray-50 max-w-[120px]";
     return (
       <tr key={uuidv4()}>
@@ -414,7 +417,7 @@ function CarTable({
     );
   });
   const itemActions = (
-    <div className="flex items-center gap-2 border-2 rounded-lg bg-blue-gray-50/50 ">
+    <div className=" flex items-center gap-2 rounded-lg border-2 bg-blue-gray-50/50 ">
       <Tooltip content="View Details">
         <IconButton
           variant="text"
@@ -445,6 +448,7 @@ function CarTable({
           onClick={onDeleteCar}
           nonce={undefined}
           onResize={undefined}
+          disabled={onDeleteCar === undefined}
           onResizeCapture={undefined}
         >
           <TrashIcon className="h-4 w-4" />
@@ -454,7 +458,7 @@ function CarTable({
   );
 
   return (
-    <div className="bg-white p-2 rounded-lg shadow-md">
+    <div className="rounded-lg bg-white p-2 shadow-md">
       <Table
         title="Cars list"
         tableRows={tableRows}
